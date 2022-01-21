@@ -1,6 +1,17 @@
 import { ScaledSheet } from 'react-native-size-matters';
 
 const styles = ScaledSheet.create({
+  bodyWrapper: {
+    paddingHorizontal: '15@msr',
+    paddingVertical: '15@msr',
+  },
+  footWrapper: {
+    paddingHorizontal: '15@msr',
+    paddingTop: '15@msr',
+  },
+  textWrapper: {
+    paddingBottom: '15@msr',
+  },
   listItemWrapper: {
     borderRadius: '18@msr',
     backgroundColor: '#32ade6',
@@ -18,9 +29,11 @@ const styles = ScaledSheet.create({
   },
 
   listItemIcon: {
+    // height: '48@msr',
     width: '48@msr',
     flexDirection: 'column',
     alignItems: 'center',
+    // flex: 1,
     height: '100%',
   },
 });

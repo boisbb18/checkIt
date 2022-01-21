@@ -4,7 +4,7 @@ const styles = ScaledSheet.create({
   modalView: {
     height: '100%',
     marginTop: 80,
-    paddingVertical: '50@msr',
+    paddingVertical: '25@msr',
     position: 'relative',
     borderTopLeftRadius: '20@msr',
     borderTopRightRadius: '20@msr',
@@ -26,14 +26,6 @@ const styles = ScaledSheet.create({
     width: '100%',
     borderTopLeftRadius: '20@msr',
     borderTopRightRadius: '20@msr',
-    // shadowColor: '#000',
-    // shadowOffset: { dddddd
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5,
   },
 
   modalViewTopBarTitle: {

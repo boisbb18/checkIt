@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "-": "0.0.1",
+    "@react-native-community/datetimepicker": "4.0.0",
+    "dayjs": "^1.10.7",
     "expo": "~44.0.0",
     "expo-blur": "~11.0.0",
     "expo-status-bar": "~1.2.0",
