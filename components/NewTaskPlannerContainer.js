@@ -14,6 +14,12 @@ const NewTaskPlannerContainer = ({
   modalVisible,
   titleSelected = false,
 }) => {
+  const [showTime, setShowTime] = useState(true);
+
+  const handleShowTime = () => {
+    setShowTime(!showTime);
+  };
+
   return (
     <ScrollView style={NewTaskPlannerContainerStyles.bodyWrapper}>
       <View>
@@ -26,7 +32,11 @@ const NewTaskPlannerContainer = ({
         />
       </View>
       <View>
-        <NewTaskTime titleSelected={titleSelected} />
+        <NewTaskTime
+          titleSelected={titleSelected}
+          showTime={showTime}
+          onShowTime={handleShowTime}
+        />
       </View>
     </ScrollView>
   );
