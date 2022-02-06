@@ -35,7 +35,7 @@ const styles = ScaledSheet.create({
   },
 
   modalBodyContainer: {
-    paddingHorizontal: '15@msr',
+    paddingHorizontal: '16@msr',
   },
 
   modalTextInputWrapper: {

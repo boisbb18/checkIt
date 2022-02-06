@@ -10,13 +10,14 @@ const NewTaskTitleText = ({ text = '' }) => (
 
 const styles = ScaledSheet.create({
   titleWrapper: {
-    marginVertical: '15@msr',
+    // marginVertical: '15@msr',
+    paddingTop: '24@msr',
+    paddingBottom: '16@msr',
   },
   textfieldTitle: {
     fontSize: '17@msr',
     opacity: 0.6,
     // paddingVertical: '10@msr',
-    paddingTop: '10@msr',
   },
 });
 

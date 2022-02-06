@@ -1,96 +1,105 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, Button, TouchableOpacity } from 'react-native-ui-lib'
-import { Platform } from 'react-native'
-import { ScaledSheet } from 'react-native-size-matters'
-import NewTaskTitleText from '../common/buttons/NewTaskTitleText'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import dayjs from 'dayjs'
-import CustomDatePicker from '../common/buttons/CustomDatePicker'
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  Button,
+  TouchableOpacity,
+  Icon,
+  Assets,
+} from 'react-native-ui-lib';
+import { Platform } from 'react-native';
+import { ScaledSheet } from 'react-native-size-matters';
+import NewTaskTitleText from '../common/buttons/NewTaskTitleText';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import dayjs from 'dayjs';
+import CustomDatePicker from '../common/buttons/CustomDatePicker';
 
 function debounce(func, timeout = 10000) {
-  let timer
+  let timer;
   return (...args) => {
-    clearTimeout(timer)
+    clearTimeout(timer);
     timer = setTimeout(() => {
-      func.apply(this, args)
-    }, timeout)
-  }
+      func.apply(this, args);
+    }, timeout);
+  };
 }
 
 const NewTaskTime = ({ titleSelected, showTime, onShowTime }) => {
-  const [showPicker, setShowPicker] = useState(false)
-  const [showCalendar, setShowCalendar] = useState(false)
-  const [selectedTime, setSelectedTime] = useState(new Date())
-  const [calendarDate, setCalendarDate] = useState(new Date())
-  const [saveTime, setSaveTime] = useState(true)
+  const [showPicker, setShowPicker] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [calendarDate, setCalendarDate] = useState(new Date());
+  const [saveTime, setSaveTime] = useState(true);
 
   const roundTimeQuarterHour = (time) => {
-    var timeToReturn = new Date(time)
+    var timeToReturn = new Date(time);
 
     timeToReturn.setMilliseconds(
       Math.round(timeToReturn.getMilliseconds() / 1000) * 1000
-    )
-    timeToReturn.setSeconds(Math.round(timeToReturn.getSeconds() / 60) * 60)
-    timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15)
-    return timeToReturn
-  }
+    );
+    timeToReturn.setSeconds(Math.round(timeToReturn.getSeconds() / 60) * 60);
+    timeToReturn.setMinutes(Math.round(timeToReturn.getMinutes() / 15) * 15);
+    return timeToReturn;
+  };
 
   useEffect(() => {
-    setSelectedTime(roundTimeQuarterHour(selectedTime))
-  }, [titleSelected])
+    setSelectedTime(roundTimeQuarterHour(selectedTime));
+    // setShowPicker(true)
+    // debouncedClose()
+  }, [titleSelected]);
 
   function closePicker() {
-    setShowPicker(false)
+    setShowPicker(false);
   }
 
-  const debouncedClose = useCallback(debounce(closePicker), [])
+  const debouncedClose = useCallback(debounce(closePicker), []);
   const onTimeChange = (event, selectedDate) => {
-    setSelectedTime(selectedDate)
-    debouncedClose()
-  }
+    setSelectedTime(selectedDate);
+    debouncedClose();
+  };
 
   const handleOpenTimePicker = () => {
-    setShowPicker(!showPicker)
-    debouncedClose()
-  }
+    setShowPicker(!showPicker);
+    debouncedClose();
+  };
 
   // const handleDatePicker = (event, selectedDate) => {
   //   setCalendarDate(selectedDate)
   // }
 
   const handleShowCalendar = () => {
-    setShowCalendar(true)
-  }
+    setShowCalendar(true);
+  };
 
   const handleCloseCalendar = () => {
-    setShowCalendar(false)
-  }
+    setShowCalendar(false);
+  };
 
   const handleCalendarDatePick = (date) => {
-    setShowCalendar(false)
-    let testDate = new Date(date)
-    let newHours = selectedTime.getHours()
-    let minutes = selectedTime.getMinutes()
-    let newDate = dayjs(testDate).hour(newHours).minute(minutes)
+    setShowCalendar(false);
+    let testDate = new Date(date);
+    let newHours = selectedTime.getHours();
+    let minutes = selectedTime.getMinutes();
+    let newDate = dayjs(testDate).hour(newHours).minute(minutes);
 
-    setCalendarDate(new Date(newDate))
-    setSelectedTime(new Date(newDate))
-  }
+    setCalendarDate(new Date(newDate));
+    setSelectedTime(new Date(newDate));
+  };
 
   const showTimeLabel = () => {
-    let getMinutes = selectedTime.getMinutes()
-    let choseTime = dayjs(selectedTime)
-    let newDate = dayjs(selectedTime)
+    let getMinutes = selectedTime.getMinutes();
+    let choseTime = dayjs(selectedTime);
+    let newDate = dayjs(selectedTime);
 
     return `${choseTime.format('h:mm A')} - ${newDate
       .minute(getMinutes + 30)
-      .format('h:mm A')}`
-  }
+      .format('h:mm A')}`;
+  };
 
   const showDateLabel = () => {
-    let dateLabel = dayjs(calendarDate).format('MMM D, YYYY')
-    return dateLabel
-  }
+    let dateLabel = dayjs(calendarDate).format('MMM D, YYYY');
+    return dateLabel;
+  };
 
   return (
     <View>
@@ -159,10 +168,10 @@ const NewTaskTime = ({ titleSelected, showTime, onShowTime }) => {
         )}
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default NewTaskTime
+export default NewTaskTime;
 
 const styles = ScaledSheet.create({
   datePicker: {
@@ -254,4 +263,4 @@ const styles = ScaledSheet.create({
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
-})
+});
