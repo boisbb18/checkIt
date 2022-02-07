@@ -22,7 +22,9 @@ const TaskTitleField = ({
 
   return (
     <View>
-      <NewTaskTitleText text="What is the task?" />
+      <View style={TaskTitleFieldStyle.headerWrapper}>
+        <NewTaskTitleText text="What is the task?" />
+      </View>
       <View style={TaskTitleFieldStyle.textfieldWrapper}>
         <View style={TaskTitleFieldStyle.textfieldIcon}>
           <Icon name={taskIcon} size={moderateScale(24)} color="#fff" />

@@ -4,14 +4,15 @@ const styles = ScaledSheet.create({
   modalBodyContainer: {
     // paddingHorizontal: '15@msr',
   },
-
+  headerWrapper: {
+    paddingTop: '24@msr',
+    paddingBottom: '16@msr',
+  },
   textfieldWrapper: {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'flex-end',
-    // marginVertical: '15@msr',
     justifyContent: 'space-between',
-    // paddingVertical: '20@msr',
     paddingBottom: '5@msr',
   },
 

@@ -2,6 +2,10 @@ import { ScaledSheet } from 'react-native-size-matters';
 
 const styles = ScaledSheet.create({
   typeWrapper: {},
+  headerContainer: {
+    paddingTop: '24@msr',
+    paddingBottom: '16@msr',
+  },
   dateButtonContainer: {
     paddingTop: '16@msr',
   },
@@ -20,6 +24,9 @@ const styles = ScaledSheet.create({
   },
   datePicker: {
     width: '100%',
+  },
+  timePickerContainer: {
+    paddingTop: '8@msr',
   },
 });
 

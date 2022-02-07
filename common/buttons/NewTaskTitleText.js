@@ -11,8 +11,8 @@ const NewTaskTitleText = ({ text = '' }) => (
 const styles = ScaledSheet.create({
   titleWrapper: {
     // marginVertical: '15@msr',
-    paddingTop: '24@msr',
-    paddingBottom: '16@msr',
+    // paddingTop: '24@msr',
+    // paddingBottom: '16@msr',
   },
   textfieldTitle: {
     fontSize: '17@msr',
