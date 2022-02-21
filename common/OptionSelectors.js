@@ -2,7 +2,12 @@ import React from 'react';
 import { Text, View, Button } from 'react-native-ui-lib';
 import { ScaledSheet, moderateScale } from 'react-native-size-matters';
 
-const OptionSelectors = ({ buttonList = [], onChange, selectedIdx }) => {
+const OptionSelectors = ({
+  buttonList = [],
+  onChange,
+  selectedIdx,
+  size = 'medium',
+}) => {
   return (
     <View style={styles.selectorContainer}>
       {buttonList.map(({ label, val }, idx) => (
@@ -21,6 +26,7 @@ const OptionSelectors = ({ buttonList = [], onChange, selectedIdx }) => {
             labelStyle={styles.labelStyle}
             style={styles.buttonStyle}
             onPress={() => onChange(val)}
+            size={size}
           />
         </View>
       ))}
@@ -32,6 +38,7 @@ const styles = ScaledSheet.create({
   selectorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
     // justifyContent: 'space-between',
   },
   labelStyle: {

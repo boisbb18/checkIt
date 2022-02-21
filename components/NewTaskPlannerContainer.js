@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Text, View, Modal, Assets } from 'react-native-ui-lib';
-import { ScrollView } from 'react-native';
-import MainButon from '../common/buttons/MainButton';
+import { ScrollView, KeyboardAvoidingView } from 'react-native';
+import MainButon from '../common/MainButton';
 import TaskTitleField from './TaskTitleField';
 import DateTimeSelector from './DateTimeSelector';
 import NewTaskPlannerContainerStyles from '../styles/NewTaskPlannerContainer';
 import DurationSelector from './DurationSelector';
 import DurationEditModal from './DurationEditModal';
+import ColorSelector from './ColorSelector';
+import FrequencySelector from './FrequencySelector';
+import SubtaskSelector from './SubtaskSelector';
+import DescriptionSelector from './DescriptionSelector';
+import TitleSelector from './TitleSelector';
 import dayjs from 'dayjs';
 
 const inputAccessoryViewID = 'abcd';
@@ -20,6 +25,12 @@ const defaultList = [
   { label: '30min', val: 30 },
   { label: '45min', val: 45 },
   { label: '1hour', val: 60 },
+];
+const allColors = ['#20303C', '#43515C', '#66737C', '#858F96', '#C2C7CB'];
+const frequencyList = [
+  { label: 'Once', val: 'once' },
+  { label: 'Daily', val: 'daily' },
+  { label: 'Weekly', val: 'weekly' },
 ];
 const getItems = (duration = 15) => {
   var x = 5; //minutes interval
@@ -49,12 +60,19 @@ const NewTaskPlannerContainer = ({
   onTaskNameChange,
   modalVisible,
   titleSelected = false,
+  inputAccessoryViewId = '',
 }) => {
   const [showTime, setShowTime] = useState(true);
+  const [taskType, setTaskType] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDuration, setSelectedDuration] = useState(15);
   const [showDurationEditModal, setShowDurationEditModal] = useState(false);
   const [durationList, setDurationList] = useState(defaultList);
+  const [paletteColor, setPaletteColor] = useState('#20303C');
+  const [selectedFrequency, setSelectedFrequency] = useState('once');
+  const [subtaskList, setSubtaskList] = useState([]);
+  const [description, setDescription] = useState('');
+  const scrollViewRef = React.createRef();
 
   useEffect(() => {
     setSelectedDate(roundDate());
@@ -125,42 +143,111 @@ const NewTaskPlannerContainer = ({
     setSelectedDuration(newTime);
   };
 
-  return (
-    <ScrollView style={NewTaskPlannerContainerStyles.bodyWrapper}>
-      <DurationEditModal
-        showModal={showDurationEditModal}
-        onClose={handleDurationEditModalSelect}
-        selectedDuration={selectedDuration}
-        onSave={handleDurationListModify}
-      />
+  const addSubtask = () => {
+    let arr = [...subtaskList, ''];
+    setSubtaskList(arr);
+    scrollToBottom();
+  };
 
-      <View>
-        <TaskTitleField
-          modalVisible={modalVisible}
-          taskIcon={taskIcon}
-          taskName={taskName}
-          onTaskNameChange={onTaskNameChange}
-          inputAccessoryViewID={inputAccessoryViewID}
-        />
-      </View>
-      <View>
-        <DateTimeSelector
-          selectedDate={selectedDate}
-          onDateChange={handleDateChange}
-          timeList={timesList}
-          onTimeChange={handleTimeChange}
-        />
-      </View>
-      <View>
-        <DurationSelector
+  const editSubtaskList = (val, idx) => {
+    let arr = [...subtaskList];
+    arr[idx] = val;
+    setSubtaskList(arr);
+    scrollToBottom();
+  };
+
+  const scrollToBottom = () => {
+    console.log('Scoll called');
+    // if (scrollViewRef.current) {
+    //   console.log('Scroll to bottom called');
+    scrollViewRef.current?.scrollToEnd();
+  };
+
+  return (
+    <KeyboardAvoidingView
+      enabled
+      keyboardVerticalOffset={150}
+      behavior="padding"
+    >
+      <ScrollView
+        ref={scrollViewRef}
+        style={NewTaskPlannerContainerStyles.bodyWrapper}
+        keyboardDismissMode="on-drag"
+      >
+        <DurationEditModal
+          showModal={showDurationEditModal}
+          onClose={handleDurationEditModalSelect}
           selectedDuration={selectedDuration}
-          onDurationChange={(val) => setSelectedDuration(val)}
-          onEditClick={openDurationEditModal}
-          durationList={durationList}
-          // onSave={}
+          onSave={handleDurationListModify}
         />
-      </View>
-    </ScrollView>
+        {/* inputAccessoryViewId */}
+        {/* <View>
+          <TaskTitleField
+            modalVisible={modalVisible}
+            taskIcon={taskIcon}
+            taskName={taskName}
+            onTaskNameChange={onTaskNameChange}
+            inputAccessoryViewID={inputAccessoryViewId}
+          />
+        </View> */}
+        <View style={NewTaskPlannerContainerStyles.titleWrapper}>
+          <TitleSelector
+            modalVisible={modalVisible}
+            taskName={taskName}
+            onTaskChange={onTaskNameChange}
+            inputAccessoryViewID={inputAccessoryViewId}
+          />
+        </View>
+        <View>
+          <DateTimeSelector
+            taskType={taskType}
+            onTaskTypeChange={(idx) => setTaskType(idx)}
+            selectedDate={selectedDate}
+            onDateChange={handleDateChange}
+            timeList={timesList}
+            onTimeChange={handleTimeChange}
+          />
+        </View>
+        <View style={NewTaskPlannerContainerStyles.frequencyView}>
+          <DurationSelector
+            selectedDuration={selectedDuration}
+            onDurationChange={(val) => setSelectedDuration(val)}
+            onEditClick={openDurationEditModal}
+            durationList={durationList}
+            // onSave={}
+          />
+        </View>
+        <View>
+          <ColorSelector
+            colors={allColors}
+            paletteColor={paletteColor}
+            onColorChange={(color) => setPaletteColor(color)}
+          />
+        </View>
+        <View>
+          <FrequencySelector
+            frequencyList={frequencyList}
+            selectedFrequency={selectedFrequency}
+            onListChange={(frequency) => setSelectedFrequency(frequency)}
+          />
+        </View>
+        <View style={NewTaskPlannerContainerStyles.subtaskView}>
+          <SubtaskSelector
+            addSubtask={addSubtask}
+            subtaskList={subtaskList}
+            editList={editSubtaskList}
+            inputAccessoryViewID={inputAccessoryViewId}
+          />
+        </View>
+        <View style={NewTaskPlannerContainerStyles.descriptionView}>
+          <DescriptionSelector
+            description={description}
+            onDescriptionChange={setDescription}
+            inputAccessoryViewID={inputAccessoryViewId}
+          />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

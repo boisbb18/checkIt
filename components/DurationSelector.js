@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, TouchableOpacity } from 'react-native-ui-lib';
-import NewTaskTitleText from '../common/buttons/NewTaskTitleText';
-import OptionSelectors from '../common/buttons/OptionSelectors';
+import NewTaskTitleText from '../common/NewTaskTitleText';
+import OptionSelectors from '../common/OptionSelectors';
 import { moderateScale } from 'react-native-size-matters';
 import DurationSelectorStyles from '../styles/DurationSelector';
 

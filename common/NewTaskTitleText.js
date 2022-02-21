@@ -15,9 +15,11 @@ const styles = ScaledSheet.create({
     // paddingBottom: '16@msr',
   },
   textfieldTitle: {
-    fontSize: '17@msr',
+    fontSize: '13@msr',
     opacity: 0.6,
-    // paddingVertical: '10@msr',
+    fontFamily: 'SFPro',
+    lineHeight: '18@msr',
+    letterSpacing: -0.078,
   },
 });
 

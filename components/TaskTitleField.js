@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Text, View, Incubator } from 'react-native-ui-lib';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { moderateScale } from 'react-native-size-matters';
-import NewTaskTitleText from '../common/buttons/NewTaskTitleText';
+import NewTaskTitleText from '../common/NewTaskTitleText';
 import TaskTitleFieldStyle from '../styles/TaskTitleField';
 const { TextField } = Incubator;
 

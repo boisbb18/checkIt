@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import HomeStyles from '../styles/Home';
 import { View, Modal, Text, Button, Assets, Icon } from 'react-native-ui-lib';
-import AddIconButton from '../common/buttons/AddIconButton';
+import AddIconButton from '../common/AddIconButton';
 import NewTaskModal from './NewTaskModal';
 
 const Home = () => {

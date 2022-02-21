@@ -4,7 +4,7 @@ import { FlatList, InputAccessoryView } from 'react-native';
 import TaskTitleField from './TaskTitleField';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { moderateScale } from 'react-native-size-matters';
-import MainButon from '../common/buttons/MainButton';
+import MainButon from '../common/MainButton';
 import TaskTitleContainerStyles from '../styles/TaskTitleContainer';
 
 const data = [

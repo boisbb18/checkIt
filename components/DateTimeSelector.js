@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, Button, SegmentedControl } from 'react-native-ui-lib'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { Platform } from 'react-native'
-import { moderateScale } from 'react-native-size-matters'
-import NewTaskTitleText from '../common/buttons/NewTaskTitleText'
-import dayjs from 'dayjs'
-import DateTimeSelectorStyles from '../styles/DateTimeSelector'
-import CustomDatePicker from '../common/buttons/CustomDatePicker'
-import CustomTimePicker from '../common/buttons/CustomTimePicker'
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, Button, SegmentedControl } from 'react-native-ui-lib';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Platform } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+import NewTaskTitleText from '../common/NewTaskTitleText';
+import dayjs from 'dayjs';
+import DateTimeSelectorStyles from '../styles/DateTimeSelector';
+import CustomDatePicker from '../common/CustomDatePicker';
+import CustomTimePicker from '../common/CustomTimePicker';
 
 const segments = [
   { label: 'Planned' },
   { label: 'All Day' },
   { label: 'Any Time' },
-]
+];
 
 const days = [
   'Sunday',
@@ -23,38 +23,40 @@ const days = [
   'Thursday',
   'Friday',
   'Saturday',
-]
+];
 const DateTimeSelector = ({
+  taskType = 0,
+  onTaskTypeChange,
   selectedDate = new Date(),
   onDateChange,
   timeList,
   onTimeChange,
 }) => {
-  const [segmentIdx, setSegmentIdx] = useState(0)
-  const [showCalendar, setShowCalendar] = useState(false)
+  const [segmentIdx, setSegmentIdx] = useState(0);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const handleIdxChange = useCallback((idx) => {
-    setSegmentIdx(idx)
-  })
+    onTaskTypeChange(idx);
+  });
 
   const showDateLabel = () => {
     return `${days[dayjs(selectedDate).day()]}, ${dayjs(selectedDate).format(
       'D MMMM, YYYY'
-    )}`
-  }
+    )}`;
+  };
 
   const handleDateButtonClick = () => {
-    setShowCalendar(!showCalendar)
-  }
+    setShowCalendar(!showCalendar);
+  };
 
   const handleDateChange = (date) => {
-    onDateChange(date)
-    setShowCalendar(false)
-  }
+    onDateChange(date);
+    setShowCalendar(false);
+  };
 
   const getSelectedTime = () => {
-    return `${dayjs(selectedDate).hour()}-${dayjs(selectedDate).minute()}`
-  }
+    return `${dayjs(selectedDate).hour()}-${dayjs(selectedDate).minute()}`;
+  };
 
   return (
     <View>
@@ -64,7 +66,7 @@ const DateTimeSelector = ({
       <View>
         <SegmentedControl
           onChangeIndex={handleIdxChange}
-          initialIndex={segmentIdx}
+          initialIndex={taskType}
           segments={segments}
         />
       </View>
@@ -91,7 +93,7 @@ const DateTimeSelector = ({
           onCloseCalendar={() => setShowCalendar(false)}
         />
       </View>
-      {segmentIdx === 0 && (
+      {taskType === 0 && (
         <View style={DateTimeSelectorStyles.timePickerContainer}>
           <CustomTimePicker
             timeList={timeList}
@@ -101,7 +103,7 @@ const DateTimeSelector = ({
         </View>
       )}
     </View>
-  )
-}
+  );
+};
 
-export default DateTimeSelector
+export default DateTimeSelector;

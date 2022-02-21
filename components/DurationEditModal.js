@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Text, View, Modal, Assets } from 'react-native-ui-lib';
 import { ScaledSheet } from 'react-native-size-matters';
 import { TimePicker } from 'react-native-simple-time-picker';
-import MainButon from '../common/buttons/MainButton';
+import MainButon from '../common/MainButton';
 
 const DurationEditModal = ({
   showModal = false,
