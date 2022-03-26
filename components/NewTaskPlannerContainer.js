@@ -190,14 +190,14 @@ const NewTaskPlannerContainer = ({
             inputAccessoryViewID={inputAccessoryViewId}
           />
         </View> */}
-        <View style={NewTaskPlannerContainerStyles.titleWrapper}>
+        {/* <View style={NewTaskPlannerContainerStyles.titleWrapper}>
           <TitleSelector
             modalVisible={modalVisible}
             taskName={taskName}
             onTaskChange={onTaskNameChange}
             inputAccessoryViewID={inputAccessoryViewId}
           />
-        </View>
+        </View> */}
         <View>
           <DateTimeSelector
             taskType={taskType}

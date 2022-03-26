@@ -18,7 +18,7 @@ const styles = ScaledSheet.create({
 
   textfieldTitle: {
     fontSize: '17@msr',
-    opacity: 0.6,
+    opacity: 0.7,
     paddingTop: '10@msr',
   },
 
@@ -46,14 +46,16 @@ const styles = ScaledSheet.create({
   },
 
   mainTextWrapper: {
-    lineHeight: '25@msr',
-    fontSize: '20@msr',
+    lineHeight: '28@msr',
+    fontSize: '22@msr',
+    // fontFamily: 'SFPro',
     fontFamily: 'SFPro',
     letterSpacing: 0.38,
+    height: '28@msr',
   },
 
   labelContainer: {
-    marginBottom: '8@msr',
+    marginBottom: '10@msr',
     fontSize: 13,
     lineHeight: 18,
     letterSpacing: 0.38,

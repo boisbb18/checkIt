@@ -11,11 +11,15 @@ const styles = ScaledSheet.create({
   },
   dateButton: {
     height: '56@msr',
+    borderWidth: 1,
+    borderColor: '#BFD5FA',
   },
   dateButtonLabel: {
     fontWeight: '400',
     fontSize: '17@msr',
     lineHeight: '22@msr',
+    color: '#2B396C',
+    letterSpacing: -0.41,
   },
   dateButtonIcon: {
     marginRight: '11@msr',
@@ -27,6 +31,21 @@ const styles = ScaledSheet.create({
   },
   timePickerContainer: {
     paddingTop: '8@msr',
+  },
+  segmentStyle: {
+    fontSize: 20,
+    lineHeight: 25,
+    // fontWeight: 500,
+    // height: '44@msr',
+    // backgroundColor: '#F3F8FF',
+    // borderRadius: 5,
+    // bor
+  },
+  segmentContainerStyle: {
+    height: '44@msr',
+    borderColor: '#fff',
+    // borderColor: 'red',
+    backgroundColor: '#E7F0FF',
   },
 });
 

@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, SafeAreaView } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import {
   Typography,
   Colors,
   Spacings,
   ThemeManager,
   LoaderScreen,
+  Assets,
   Text,
-} from 'react-native-ui-lib'
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters'
-import Home from './components/Home'
-import { useFonts } from 'expo-font'
+} from 'react-native-ui-lib';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import Home from './components/Home';
+import { useFonts } from 'expo-font';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -20,16 +21,16 @@ export default function App() {
     'SFPro-Medium': require('./assets/fonts/SF-Pro-Display-Medium.otf'),
     'SFPro-Semibold': require('./assets/fonts/SF-Pro-Display-Semibold.otf'),
     'SFPro-Bold': require('./assets/fonts/SF-Pro-Display-Bold.otf'),
-  })
+  });
 
   if (!fontsLoaded)
-    return <LoaderScreen color={Colors.blue30} message="Loading..." overlay />
+    return <LoaderScreen color={Colors.blue30} message="Loading..." overlay />;
 
   return (
     <SafeAreaView style={styles.container}>
       <Home />
     </SafeAreaView>
-  )
+  );
 }
 
 Colors.loadColors({
@@ -37,20 +38,26 @@ Colors.loadColors({
   light: '#32ade6',
   secondary: '#34c759',
   warning: '#ff3b30',
-})
+});
+
+Assets.loadAssetsGroup('icons', {
+  plusSign: require('./assets/icons/plusSign.png'),
+  calendar: require('./assets/icons/Calendar.png'),
+  inbox: require('./assets/icons/inbox.png'),
+});
 
 Typography.loadTypographies({
   h1: { fontSize: scale(28), fontWeight: '300' },
   h2: { fontSize: scale(22), fontWeight: '300' },
-})
+});
 
 ThemeManager.setComponentTheme('Text', {
-  fontFamily: 'sans-serif',
-})
+  fontFamily: 'SFPro',
+});
 
 ThemeManager.setComponentTheme('Button', {
-  fontFamily: 'sans-serif',
-})
+  fontFamily: 'SFPro',
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -59,4 +66,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'column',
   },
-})
+});

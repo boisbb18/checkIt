@@ -28,6 +28,7 @@ const TitleSelector = ({
           multiline
           labelStyle={TitlteSelectorStyles.labelContainer}
           value={taskName}
+          placeholderTextColor="rgba(43, 57, 108, 0.3)"
           onChangeText={(text) => onTaskChange(text)}
           placeholder="Go grocery shopping"
           fieldStyle={TitlteSelectorStyles.textfieldContainer}

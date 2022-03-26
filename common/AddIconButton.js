@@ -1,21 +1,22 @@
 import React from 'react';
-import { Button, Assets, Icon } from 'react-native-ui-lib';
+import { Button, Assets, Icon, View, Text } from 'react-native-ui-lib';
 import { ScaledSheet, scale, moderateScale } from 'react-native-size-matters';
 
 const AddIconButton = ({ openModal } = {}) => {
   return (
     <Button
+      enableShadow={true}
       onPress={openModal}
       round
       iconSource={(iconStyle) => (
         <Icon
-          source={Assets.icons.plusSmall}
-          size={scale(35)}
+          source={Assets.icons.plusSign}
+          size={scale(20)}
           tintColor="#FFF"
         />
       )}
       style={styles.buttonStyle}
-      color="#FFF"
+      backgroundColor="#5199FF"
     />
   );
 };
@@ -23,8 +24,9 @@ export default AddIconButton;
 
 const styles = ScaledSheet.create({
   buttonStyle: {
-    position: 'absolute',
-    right: moderateScale(30),
-    bottom: moderateScale(30),
+    height: '64@msr',
+    width: '64@msr',
+    borderWidth: 6,
+    borderColor: '#fff',
   },
 });
