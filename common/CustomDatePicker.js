@@ -11,7 +11,11 @@ const CustomDatePicker = ({
   onCloseCalendar,
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        backgroundColor: '#F3F8FF',
+      }}
+    >
       <DatePicker
         isVisible={showCalendar}
         mode={'single'}

@@ -18,7 +18,7 @@ const styles = ScaledSheet.create({
     shadowRadius: 4,
     elevation: 5,
     backgroundColor: '#FFF',
-    paddingBottom: 50,
+    paddingBottom: 10,
   },
 
   modalViewTopBarViewContainer: {
@@ -41,6 +41,7 @@ const styles = ScaledSheet.create({
     borderTopRightRadius: '20@msr',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 999,
   },
 
   modalViewTopBarTitle: {

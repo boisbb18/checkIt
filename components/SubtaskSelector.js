@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, Incubator, Checkbox } from 'react-native-ui-lib';
-import { ScaledSheet, moderateScale } from 'react-native-size-matters';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  Text,
+  View,
+  Button,
+  Incubator,
+  Checkbox,
+  Icon,
+  Assets,
+} from 'react-native-ui-lib';
+import { ScaledSheet, moderateScale, scale } from 'react-native-size-matters';
 import SubtaskSelectorStyles from '../styles/SubtaskSelector';
 import SubtaskSelectorInputField from './SubtaskSelectorInputField';
 const { TextField } = Incubator;
@@ -53,9 +60,8 @@ const SubtaskSelector = ({
       {/* </KeyboardAvoidingView> */}
       <View>
         <Button
-          outline
-          text90
-          borderRadius={4}
+          backgroundColor="#5199FF"
+          borderRadius={5}
           size={Button.sizes.large}
           label="Add Subtask"
           onPress={addSubtask}
@@ -63,7 +69,11 @@ const SubtaskSelector = ({
           style={SubtaskSelectorStyles.mainButton}
           iconSource={(iconStyle) => (
             <View style={SubtaskSelectorStyles.mainButtonIcon}>
-              <Icon name="plus" size={moderateScale(10)} color="#32ade6" />
+              <Icon
+                source={Assets.icons.plusSign}
+                size={scale(10)}
+                tintColor="#fff"
+              />
             </View>
           )}
         />

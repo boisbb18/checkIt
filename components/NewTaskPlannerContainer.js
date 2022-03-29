@@ -26,7 +26,14 @@ const defaultList = [
   { label: '45min', val: 45 },
   { label: '1hour', val: 60 },
 ];
-const allColors = ['#20303C', '#43515C', '#66737C', '#858F96', '#C2C7CB'];
+const allColors = [
+  '#FF3B30',
+  '#FF9500',
+  '#5AC8FA',
+  '#AF52DE',
+  '#AC8E68',
+  '#007AFF',
+];
 const frequencyList = [
   { label: 'Once', val: 'once' },
   { label: 'Daily', val: 'daily' },
@@ -61,6 +68,7 @@ const NewTaskPlannerContainer = ({
   modalVisible,
   titleSelected = false,
   inputAccessoryViewId = '',
+  isKeyboardVisible = false,
 }) => {
   const [showTime, setShowTime] = useState(true);
   const [taskType, setTaskType] = useState(0);
@@ -68,7 +76,7 @@ const NewTaskPlannerContainer = ({
   const [selectedDuration, setSelectedDuration] = useState(15);
   const [showDurationEditModal, setShowDurationEditModal] = useState(false);
   const [durationList, setDurationList] = useState(defaultList);
-  const [paletteColor, setPaletteColor] = useState('#20303C');
+  const [paletteColor, setPaletteColor] = useState('#FF3B30');
   const [selectedFrequency, setSelectedFrequency] = useState('once');
   const [subtaskList, setSubtaskList] = useState([]);
   const [description, setDescription] = useState('');
@@ -157,16 +165,13 @@ const NewTaskPlannerContainer = ({
   };
 
   const scrollToBottom = () => {
-    console.log('Scoll called');
-    // if (scrollViewRef.current) {
-    //   console.log('Scroll to bottom called');
     scrollViewRef.current?.scrollToEnd();
   };
 
   return (
     <KeyboardAvoidingView
       enabled
-      keyboardVerticalOffset={150}
+      keyboardVerticalOffset={100}
       behavior="padding"
     >
       <ScrollView
@@ -180,25 +185,15 @@ const NewTaskPlannerContainer = ({
           selectedDuration={selectedDuration}
           onSave={handleDurationListModify}
         />
-        {/* inputAccessoryViewId */}
-        {/* <View>
-          <TaskTitleField
-            modalVisible={modalVisible}
-            taskIcon={taskIcon}
-            taskName={taskName}
-            onTaskNameChange={onTaskNameChange}
-            inputAccessoryViewID={inputAccessoryViewId}
-          />
-        </View> */}
-        {/* <View style={NewTaskPlannerContainerStyles.titleWrapper}>
+        <View style={NewTaskPlannerContainerStyles.titleWrapper}>
           <TitleSelector
             modalVisible={modalVisible}
             taskName={taskName}
             onTaskChange={onTaskNameChange}
             inputAccessoryViewID={inputAccessoryViewId}
           />
-        </View> */}
-        <View>
+        </View>
+        <View style={[NewTaskPlannerContainerStyles.addedPadding]}>
           <DateTimeSelector
             taskType={taskType}
             onTaskTypeChange={(idx) => setTaskType(idx)}
@@ -208,7 +203,12 @@ const NewTaskPlannerContainer = ({
             onTimeChange={handleTimeChange}
           />
         </View>
-        <View style={NewTaskPlannerContainerStyles.frequencyView}>
+        <View
+          style={[
+            NewTaskPlannerContainerStyles.frequencyView,
+            NewTaskPlannerContainerStyles.addedPadding,
+          ]}
+        >
           <DurationSelector
             selectedDuration={selectedDuration}
             onDurationChange={(val) => setSelectedDuration(val)}
@@ -217,21 +217,26 @@ const NewTaskPlannerContainer = ({
             // onSave={}
           />
         </View>
-        <View>
+        <View style={[NewTaskPlannerContainerStyles.addedPadding]}>
           <ColorSelector
             colors={allColors}
             paletteColor={paletteColor}
             onColorChange={(color) => setPaletteColor(color)}
           />
         </View>
-        <View>
+        <View style={[NewTaskPlannerContainerStyles.addedPadding]}>
           <FrequencySelector
             frequencyList={frequencyList}
             selectedFrequency={selectedFrequency}
             onListChange={(frequency) => setSelectedFrequency(frequency)}
           />
         </View>
-        <View style={NewTaskPlannerContainerStyles.subtaskView}>
+        <View
+          style={[
+            NewTaskPlannerContainerStyles.subtaskView,
+            NewTaskPlannerContainerStyles.addedPadding,
+          ]}
+        >
           <SubtaskSelector
             addSubtask={addSubtask}
             subtaskList={subtaskList}
@@ -239,13 +244,33 @@ const NewTaskPlannerContainer = ({
             inputAccessoryViewID={inputAccessoryViewId}
           />
         </View>
-        <View style={NewTaskPlannerContainerStyles.descriptionView}>
+        <View
+          style={[
+            NewTaskPlannerContainerStyles.descriptionView,
+            NewTaskPlannerContainerStyles.addedPadding,
+          ]}
+        >
           <DescriptionSelector
             description={description}
             onDescriptionChange={setDescription}
             inputAccessoryViewID={inputAccessoryViewId}
           />
         </View>
+        {!isKeyboardVisible && (
+          <View
+            style={[
+              NewTaskPlannerContainerStyles.createButton,
+              NewTaskPlannerContainerStyles.addedPadding,
+            ]}
+          >
+            <MainButon
+              text={'Main Button'}
+              onPress={() => console.log('Button clickeed')}
+              disabled={false}
+              size="lrg"
+            />
+          </View>
+        )}
       </ScrollView>
     </KeyboardAvoidingView>
   );

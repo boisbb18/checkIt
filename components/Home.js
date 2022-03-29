@@ -14,13 +14,9 @@ const Home = () => {
     setModalVisible(!modalVisible);
   };
 
-  // const gridItems = [{
-  //   title:'Calendar',
-  //   onPress: () => console.log('Calendar is called'),
-  //   renderCustomItem: () => (
-  //     <View></Vie
-  //   )
-  // }]
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const mainNavigationBar = () => (
     <View style={HomeStyles.buttonsContainer}>
@@ -44,7 +40,7 @@ const Home = () => {
       </View>
       <View style={HomeStyles.buttonTopLayer}>
         <View style={HomeStyles.addButton}>
-          <AddIconButton openModal={openModal} />
+          <AddIconButton openModal={openModal} closeModal={closeModal} />
         </View>
       </View>
     </View>
@@ -58,7 +54,7 @@ const Home = () => {
       </View>
       <View style={HomeStyles.buttonTopLayer}>
         <View style={HomeStyles.addButton}>
-          <AddIconButton openModal={openModal} />
+          <AddIconButton openModal={openModal} closeModal={closeModal} />
         </View>
       </View>
       <View style={HomeStyles.buttonIcon}>
@@ -70,7 +66,7 @@ const Home = () => {
 
   return (
     <View style={HomeStyles.allTasksWrapper}>
-      <NewTaskModal modalVisible={modalVisible} closeModal={openModal} />
+      <NewTaskModal modalVisible={modalVisible} closeModal={closeModal} />
       {mainNavigationBar()}
     </View>
   );

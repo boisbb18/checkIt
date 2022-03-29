@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -6,16 +6,16 @@ import {
   Icon,
   Assets,
   // SegmentedControl
-} from 'react-native-ui-lib'
+} from 'react-native-ui-lib';
 // import Icon from 'react-native-vector-icons/FontAwesome';
-import { Platform } from 'react-native'
-import { moderateScale } from 'react-native-size-matters'
-import NewTaskTitleText from '../common/NewTaskTitleText'
-import dayjs from 'dayjs'
-import DateTimeSelectorStyles from '../styles/DateTimeSelector'
-import CustomDatePicker from '../common/CustomDatePicker'
-import CustomTimePicker from '../common/CustomTimePicker'
-import SegmentedControl from '@react-native-segmented-control/segmented-control'
+import { Platform } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+import NewTaskTitleText from '../common/NewTaskTitleText';
+import dayjs from 'dayjs';
+import DateTimeSelectorStyles from '../styles/DateTimeSelector';
+import CustomDatePicker from '../common/CustomDatePicker';
+import CustomTimePicker from '../common/CustomTimePicker';
+import SegmentedControl from '@react-native-segmented-control/segmented-control';
 
 const days = [
   'Sunday',
@@ -25,7 +25,7 @@ const days = [
   'Thursday',
   'Friday',
   'Saturday',
-]
+];
 
 const DateTimeSelector = ({
   taskType = 0,
@@ -35,31 +35,31 @@ const DateTimeSelector = ({
   timeList,
   onTimeChange,
 }) => {
-  const [segmentIdx, setSegmentIdx] = useState(0)
-  const [showCalendar, setShowCalendar] = useState(false)
+  const [segmentIdx, setSegmentIdx] = useState(0);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const handleIdxChange = useCallback((idx) => {
-    onTaskTypeChange(idx)
-  })
+    onTaskTypeChange(idx);
+  });
 
   const showDateLabel = () => {
     return `${days[dayjs(selectedDate).day()]}, ${dayjs(selectedDate).format(
       'D MMMM, YYYY'
-    )}`
-  }
+    )}`;
+  };
 
   const handleDateButtonClick = () => {
-    setShowCalendar(!showCalendar)
-  }
+    setShowCalendar(!showCalendar);
+  };
 
   const handleDateChange = (date) => {
-    onDateChange(date)
-    setShowCalendar(false)
-  }
+    onDateChange(date);
+    setShowCalendar(false);
+  };
 
   const getSelectedTime = () => {
-    return `${dayjs(selectedDate).hour()}-${dayjs(selectedDate).minute()}`
-  }
+    return `${dayjs(selectedDate).hour()}-${dayjs(selectedDate).minute()}`;
+  };
 
   return (
     <View>
@@ -75,7 +75,7 @@ const DateTimeSelector = ({
           onChange={(event) =>
             handleIdxChange(event.nativeEvent.selectedSegmentIndex)
           }
-          backgroundColor="#E7F0FF"
+          // backgroundColor="#F3F8FF"
           fontStyle={{
             color: '#2B396C',
             fontSize: 13,
@@ -93,7 +93,7 @@ const DateTimeSelector = ({
       </View>
       <View style={DateTimeSelectorStyles.dateButtonContainer}>
         <Button
-          backgroundColor="#dae8ff"
+          backgroundColor="#F3F8FF"
           label={showDateLabel()}
           size={Button.sizes.large}
           borderRadius={10}
@@ -129,7 +129,7 @@ const DateTimeSelector = ({
         </View>
       )}
     </View>
-  )
-}
+  );
+};
 
-export default DateTimeSelector
+export default DateTimeSelector;

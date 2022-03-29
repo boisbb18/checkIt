@@ -15,7 +15,7 @@ import { useFonts } from 'expo-font';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
-    'SFPro-Bold': require('./assets/fonts/SFPro-Bold.otf'),
+    // 'SFPro-Bold': require('./assets/fonts/SFPro-Bold.otf'),
     SFPro: require('./assets/fonts/SFPro-Regular.otf'),
     'SFPro-MediumItalic': require('./assets/fonts/SF-Pro-Display-MediumItalic.otf'),
     'SFPro-Medium': require('./assets/fonts/SF-Pro-Display-Medium.otf'),
@@ -43,6 +43,7 @@ Colors.loadColors({
 Assets.loadAssetsGroup('icons', {
   plusSign: require('./assets/icons/plusSign.png'),
   calendar: require('./assets/icons/Calendar.png'),
+  time: require('./assets/icons/Time.png'),
   inbox: require('./assets/icons/inbox.png'),
 });
 

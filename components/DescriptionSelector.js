@@ -5,7 +5,11 @@ import DescriptionSelectorStyles from '../styles/DescriptionSelector';
 import { moderateScale } from 'react-native-size-matters';
 const { TextField } = Incubator;
 
-const DescriptionSelector = ({ onDescriptionChange, description }) => {
+const DescriptionSelector = ({
+  onDescriptionChange,
+  description,
+  inputAccessoryViewID,
+}) => {
   const descriptionChange = (text) => {};
   return (
     <View>
@@ -24,6 +28,7 @@ const DescriptionSelector = ({ onDescriptionChange, description }) => {
           numberOfLines={8}
           fieldStyle={DescriptionSelectorStyles.textfieldContainer}
           containerStyle={DescriptionSelectorStyles.textfieldInputContainer}
+          inputAccessoryViewID={inputAccessoryViewID}
         />
       </View>
     </View>

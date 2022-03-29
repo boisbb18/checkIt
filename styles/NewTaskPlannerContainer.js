@@ -1,20 +1,16 @@
 import { ScaledSheet } from 'react-native-size-matters';
 
 const styles = ScaledSheet.create({
-  bodyWrapper: {
+  bodyWrapper: {},
+  addedPadding: {
     paddingHorizontal: '15@msr',
-    // paddingBottom: 80,
-    // marginTop: '16@msr',
-    // // paddingVertical: '10@msr',
-    // paddingBottom: '24@msr',
-    // height: '100%',
-    // flexDirection: 'column',
-    // paddingBottom: '40@msr',
-    // backgroundColor: 'red',
   },
   titleWrapper: {
-    marginTop: '32@msr',
-    padding: 0,
+    marginTop: '40@msr',
+    paddingTop: '32@msr',
+    paddingHorizontal: '15@msr',
+    paddingBottom: '32@msr',
+    backgroundColor: '#F3F8FF',
   },
   bottomPadding: {
     paddingHorizontal: '24@msr',
@@ -22,8 +18,8 @@ const styles = ScaledSheet.create({
     backgroundColor: 'red',
   },
   descriptionView: {
-    marginBottom: '24@msr',
-    paddingBottom: '24@msr',
+    marginBottom: '32@msr',
+    // paddingBottom: '24@msr',
   },
   createButtonContainer: {
     width: '100%',
@@ -48,6 +44,9 @@ const styles = ScaledSheet.create({
     shadowColor: '#000',
     backgroundColor: 'red',
     flexDirection: 'column',
+  },
+  createButton: {
+    paddingBottom: '24@msr',
   },
 });
 
