@@ -12,6 +12,8 @@
   "dependencies": {
     "-": "0.0.1",
     "@expo-google-fonts/roboto": "^0.2.2",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-community/cli": "^7.0.3",
     "@react-native-community/datetimepicker": "4.0.0",
     "@react-native-picker/picker": "2.2.1",
     "@react-native-segmented-control/segmented-control": "2.4.0",
@@ -20,11 +22,14 @@
     "expo-blur": "~11.0.0",
     "expo-font": "~10.0.4",
     "expo-status-bar": "~1.2.0",
+    "firebase": "^9.6.10",
     "g": "^2.0.1",
     "npm": "^8.3.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
+    "react-native-calendars": "^1.1281.0",
+    "react-native-eject": "^0.1.2",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal": "^13.0.0",
@@ -34,7 +39,8 @@
     "react-native-size-matters": "^0.4.0",
     "react-native-ui-lib": "^6.6.2",
     "react-native-vector-icons": "^9.0.0",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "rrule": "^2.6.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

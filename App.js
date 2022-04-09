@@ -45,6 +45,8 @@ Assets.loadAssetsGroup('icons', {
   calendar: require('./assets/icons/Calendar.png'),
   time: require('./assets/icons/Time.png'),
   inbox: require('./assets/icons/inbox.png'),
+  search: require('./assets/icons/searchIcon.png'),
+  settings: require('./assets/icons/settingsIcon.png'),
 });
 
 Typography.loadTypographies({

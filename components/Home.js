@@ -5,10 +5,34 @@ import { View, Modal, Text, Button, Assets, Icon } from 'react-native-ui-lib';
 import AddIconButton from '../common/AddIconButton';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import { moderateScale } from 'react-native-size-matters';
+import { auth, db } from '../firebase';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 import NewTaskModal from './NewTaskModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDatabase, ref, set } from 'firebase/database';
+import TopBar from './TopBar';
+import TopBarEx from './TobBarEx';
 
 const Home = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(async () => {
+    await getAuth();
+  }, []);
+
+  const getAuth = async () => {
+    try {
+      const user_uid = await AsyncStorage.getItem('@user_uid');
+      if (!user_uid) {
+        handleSignup();
+      } else {
+        setUserId(JSON.parse(user_uid));
+      }
+    } catch (e) {
+      console.log('Get Auth --> ', e);
+    }
+  };
 
   const openModal = () => {
     setModalVisible(!modalVisible);
@@ -16,6 +40,15 @@ const Home = () => {
 
   const closeModal = () => {
     setModalVisible(false);
+  };
+
+  const handleSignup = () => {
+    signInAnonymously(auth)
+      .then(async ({ user }) => {
+        const user_uid = JSON.stringify(user.uid);
+        await AsyncStorage.setItem('@user_uid', user_uid);
+      })
+      .catch((error) => console.log('Error ----> ', error));
   };
 
   const mainNavigationBar = () => (
@@ -66,8 +99,13 @@ const Home = () => {
 
   return (
     <View style={HomeStyles.allTasksWrapper}>
-      <NewTaskModal modalVisible={modalVisible} closeModal={closeModal} />
-      {mainNavigationBar()}
+      <NewTaskModal
+        modalVisible={modalVisible}
+        closeModal={closeModal}
+        userId={userId}
+      />
+      <TopBar />
+      <View style={HomeStyles.navigationContainer}>{mainNavigationBar()}</View>
     </View>
   );
 };

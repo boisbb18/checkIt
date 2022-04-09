@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Text, View, Modal, Assets } from 'react-native-ui-lib';
-import { ScrollView, KeyboardAvoidingView } from 'react-native';
+import {
+  ScrollView,
+  KeyboardAvoidingView,
+  InputAccessoryView,
+} from 'react-native';
 import MainButon from '../common/MainButton';
 import TaskTitleField from './TaskTitleField';
 import DateTimeSelector from './DateTimeSelector';
@@ -20,6 +24,11 @@ const roundDate = () => {
   let date = new Date(); //or use any other date
   return new Date(Math.round(date.getTime() / coeff) * coeff);
 };
+
+const recurringDate = () => {
+  return new Date(new Date().setFullYear(new Date().getFullYear() + 1));
+};
+
 const defaultList = [
   { label: '15min', val: 15 },
   { label: '30min', val: 30 },
@@ -61,14 +70,25 @@ const getItems = (duration = 15) => {
   return times;
 };
 
+const weekDays = [
+  { weekDay: 'MO', title: 'M' },
+  { weekDay: 'TU', title: 'T' },
+  { weekDay: 'WE', title: 'W' },
+  { weekDay: 'TH', title: 'T' },
+  { weekDay: 'FR', title: 'F' },
+  { weekDay: 'SA', title: 'S' },
+  { weekDay: 'SU', title: 'S' },
+];
+
 const NewTaskPlannerContainer = ({
   taskIcon,
   taskName,
   onTaskNameChange,
   modalVisible,
   titleSelected = false,
-  inputAccessoryViewId = '',
+  inputAccessoryViewId = 'abcd',
   isKeyboardVisible = false,
+  onCreateNewTask,
 }) => {
   const [showTime, setShowTime] = useState(true);
   const [taskType, setTaskType] = useState(0);
@@ -78,13 +98,27 @@ const NewTaskPlannerContainer = ({
   const [durationList, setDurationList] = useState(defaultList);
   const [paletteColor, setPaletteColor] = useState('#FF3B30');
   const [selectedFrequency, setSelectedFrequency] = useState('once');
+  const [frequencyTime, setFrequencyTime] = useState(new Date());
+  const [endFrequencyDate, setEndFrequencyDate] = useState(new Date());
+  const [frequencyDays, setFrequencyDays] = useState([]);
   const [subtaskList, setSubtaskList] = useState([]);
   const [description, setDescription] = useState('');
   const scrollViewRef = React.createRef();
 
   useEffect(() => {
     setSelectedDate(roundDate());
+    setFrequencyTime(roundDate());
+    setEndFrequencyDate(recurringDate());
+    setCurrentDayOfTheWeek();
   }, [titleSelected]);
+
+  const setCurrentDayOfTheWeek = () => {
+    let currentDate = new Date();
+    let dayOfTheWeek = currentDate.getDay();
+    let currentDay =
+      dayOfTheWeek === 0 ? weekDays.length - 1 : dayOfTheWeek - 1;
+    setFrequencyDays([weekDays[currentDay]]);
+  };
 
   const handleShowTime = () => {
     setShowTime(!showTime);
@@ -152,20 +186,57 @@ const NewTaskPlannerContainer = ({
   };
 
   const addSubtask = () => {
-    let arr = [...subtaskList, ''];
+    let arr = [...subtaskList, { task: '', isCompleted: false }];
     setSubtaskList(arr);
     scrollToBottom();
   };
 
   const editSubtaskList = (val, idx) => {
     let arr = [...subtaskList];
-    arr[idx] = val;
+    arr[idx].task = val;
     setSubtaskList(arr);
     scrollToBottom();
   };
 
   const scrollToBottom = () => {
     scrollViewRef.current?.scrollToEnd();
+  };
+
+  const selectWeekdays = (weekDay, title) => {
+    let idx = frequencyDays.map(({ weekDay }) => weekDay).indexOf(weekDay);
+    let newArr = [];
+    if (idx > -1) {
+      newArr = frequencyDays.filter((data, index) => idx !== index);
+    } else {
+      newArr = [...frequencyDays, { weekDay, title }];
+    }
+    setFrequencyDays(newArr);
+  };
+
+  const addNewTask = () => {
+    /*
+    taskType,
+    selectedDate,
+    selectedDuration,
+    paletteColor,
+    selectedFrequency,
+    frequencyTime,
+    endFrequencyDate,
+    subtaskList,
+    description,
+    */
+    onCreateNewTask({
+      taskType,
+      selectedDate,
+      selectedDuration,
+      paletteColor,
+      selectedFrequency,
+      subtaskList,
+      frequencyTime,
+      endFrequencyDate,
+      description,
+      frequencyDays,
+    });
   };
 
   return (
@@ -224,13 +295,22 @@ const NewTaskPlannerContainer = ({
             onColorChange={(color) => setPaletteColor(color)}
           />
         </View>
-        <View style={[NewTaskPlannerContainerStyles.addedPadding]}>
-          <FrequencySelector
-            frequencyList={frequencyList}
-            selectedFrequency={selectedFrequency}
-            onListChange={(frequency) => setSelectedFrequency(frequency)}
-          />
-        </View>
+        {taskType < 2 && (
+          <View style={[NewTaskPlannerContainerStyles.addedPadding]}>
+            <FrequencySelector
+              frequencyTime={frequencyTime}
+              onFrequencyTimeChange={setFrequencyTime}
+              endFrequencyDate={endFrequencyDate}
+              onEndFrequencyDate={setEndFrequencyDate}
+              frequencyList={frequencyList}
+              selectedFrequency={selectedFrequency}
+              onListChange={(frequency) => setSelectedFrequency(frequency)}
+              weekDays={weekDays}
+              onSelectWeekdays={selectWeekdays}
+              frequencyDays={frequencyDays}
+            />
+          </View>
+        )}
         <View
           style={[
             NewTaskPlannerContainerStyles.subtaskView,
@@ -265,12 +345,26 @@ const NewTaskPlannerContainer = ({
           >
             <MainButon
               text={'Main Button'}
-              onPress={() => console.log('Button clickeed')}
-              disabled={false}
+              onPress={addNewTask}
+              disabled={taskName === ''}
               size="lrg"
             />
           </View>
         )}
+        <InputAccessoryView nativeID={inputAccessoryViewID}>
+          <View
+            style={{
+              paddingHorizontal: 15,
+            }}
+          >
+            <MainButon
+              text={'Create Task'}
+              // onPress={() => console.log('Button clickeed')}
+              onPress={addNewTask}
+              disabled={taskName === ''}
+            />
+          </View>
+        </InputAccessoryView>
       </ScrollView>
     </KeyboardAvoidingView>
   );

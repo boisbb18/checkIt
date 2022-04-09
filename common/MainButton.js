@@ -7,10 +7,13 @@ const MainButton = ({ text, onPress, disabled = false, size = 'med' } = {}) => {
     <Button
       label={text}
       borderRadius={5}
-      style={{ ...styles.buttonStyle, ...styles[size] }}
+      style={[
+        disabled ? styles.disabledButton : styles.buttonStyle,
+        styles[size],
+      ]}
       onPress={onPress}
-      labelStyle={styles.labelStyle}
-      backgroundColor="#34c759"
+      labelStyle={disabled ? styles.disabledLabel : styles.labelStyle}
+      // backgroundColor="#34c759"
       disabled={disabled}
       enableShadow
     />
@@ -30,6 +33,14 @@ const styles = ScaledSheet.create({
     lineHeight: 21,
     letterSpacing: -0.32,
     fontWeight: '400',
+  },
+  disabledButton: {
+    backgroundColor: 'rgba(116, 116, 128, 0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(116, 116, 128, 0.08)',
+  },
+  disabledLabel: {
+    color: '#3C3C43',
   },
   med: {
     height: moderateScale(48),

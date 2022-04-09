@@ -13,11 +13,17 @@ import TaskNameContainer from './TaskNameContainer';
 import TaskTitleContainer from './TaskTitleContainer';
 import TitleSelector from './TitleSelector';
 import NewTaskPlannerContainer from './NewTaskPlannerContainer';
+import {
+  saveNewTask,
+  saveNewReminder,
+  createReocurrence,
+  addSingleEvents,
+} from '../services/firebaseService';
 import MainButon from '../common/MainButton';
 const { TextField } = Incubator;
 
 const inputAccessoryViewID = '123abc';
-const NewTaskModal = ({ modalVisible, closeModal } = {}) => {
+const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [taskName, setTaskName] = useState('');
   const [taskIcon, setTaskIcon] = useState('shopping-cart');
@@ -60,6 +66,51 @@ const NewTaskModal = ({ modalVisible, closeModal } = {}) => {
     setTitleSelected(true);
   };
 
+  const createNewTask = ({
+    taskType,
+    selectedDate,
+    selectedDuration,
+    paletteColor,
+    selectedFrequency,
+    frequencyTime,
+    endFrequencyDate,
+    subtaskList,
+    description,
+    frequencyDays,
+  }) => {
+    const isReminder = taskType === 2;
+    const isAllDay = taskType === 1;
+    const isOnce = selectedFrequency === 'once';
+
+    const newTaskObj = {
+      taskName,
+      selectedDate,
+      duration: selectedDuration,
+      paletteColor,
+      description,
+      isCompleted: false,
+      subtaskList,
+    };
+
+    if (isReminder) {
+      saveNewReminder(userId, newTaskObj);
+    } else if (!isOnce) {
+      createReocurrence(
+        frequencyDays,
+        selectedFrequency,
+        userId,
+        { ...newTaskObj, frequency: selectedFrequency, isAllDay },
+        selectedDate
+      );
+    } else {
+      addSingleEvents(userId, {
+        ...newTaskObj,
+        isAllDay,
+        repeatedEventId: null,
+      });
+    }
+  };
+
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
       <View style={NewTaskModalStyle.modalView}>
@@ -94,11 +145,12 @@ const NewTaskModal = ({ modalVisible, closeModal } = {}) => {
               taskName={taskName}
               onTaskNameChange={setTaskName}
               titleSelected={titleSelected}
-              inputAccessoryViewId={inputAccessoryViewID}
+              // inputAccessoryViewId={inputAccessoryViewID}
               isKeyboardVisible={isKeyboardVisible}
+              onCreateNewTask={createNewTask}
             />
           </View>
-          <InputAccessoryView nativeID={inputAccessoryViewID}>
+          {/* <InputAccessoryView nativeID={inputAccessoryViewID}>
             <View
               style={{
                 paddingHorizontal: 15,
@@ -109,7 +161,7 @@ const NewTaskModal = ({ modalVisible, closeModal } = {}) => {
                 onPress={() => console.log('Button clickeed')}
               />
             </View>
-          </InputAccessoryView>
+          </InputAccessoryView> */}
         </View>
       </View>
     </Modal>

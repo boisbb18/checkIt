@@ -25,7 +25,7 @@ const SubtaskSelector = ({
   return (
     <View>
       <View>
-        {subtaskList.map((val, idx) => (
+        {subtaskList.map(({ task }, idx) => (
           <View
             key={idx}
             style={
@@ -48,7 +48,7 @@ const SubtaskSelector = ({
               </View>
               <SubtaskSelectorInputField
                 inputAccessoryViewID={inputAccessoryViewID}
-                value={val}
+                value={task}
                 idx={idx}
                 onChange={editList}
                 setFocus={idx === subtaskList.length - 1}

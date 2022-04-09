@@ -5,7 +5,11 @@ const styles = ScaledSheet.create({
     width: '100%',
     flex: 1,
     flexDirection: 'column',
+    // paddingHorizontal: '10@msr',
+  },
+  navigationContainer: {
     paddingHorizontal: '10@msr',
+    flex: 1,
   },
   customContainer: {
     position: 'absolute',
