@@ -89,6 +89,7 @@ const NewTaskPlannerContainer = ({
   inputAccessoryViewId = 'abcd',
   isKeyboardVisible = false,
   onCreateNewTask,
+  onCloseModal,
 }) => {
   const [showTime, setShowTime] = useState(true);
   const [taskType, setTaskType] = useState(0);
@@ -198,6 +199,11 @@ const NewTaskPlannerContainer = ({
     scrollToBottom();
   };
 
+  const removeSubtaskList = (idx) => {
+    const arr = subtaskList.filter((task, index) => index !== idx);
+    setSubtaskList(arr);
+  };
+
   const scrollToBottom = () => {
     scrollViewRef.current?.scrollToEnd();
   };
@@ -237,6 +243,8 @@ const NewTaskPlannerContainer = ({
       description,
       frequencyDays,
     });
+
+    onCloseModal();
   };
 
   return (
@@ -321,6 +329,7 @@ const NewTaskPlannerContainer = ({
             addSubtask={addSubtask}
             subtaskList={subtaskList}
             editList={editSubtaskList}
+            removeList={removeSubtaskList}
             inputAccessoryViewID={inputAccessoryViewId}
           />
         </View>
@@ -351,16 +360,20 @@ const NewTaskPlannerContainer = ({
             />
           </View>
         )}
-        <InputAccessoryView nativeID={inputAccessoryViewID}>
+        <InputAccessoryView
+          nativeID={inputAccessoryViewId}
+          style={{ zIndex: 100 }}
+        >
           <View
             style={{
               paddingHorizontal: 15,
+              zIndex: 999,
             }}
           >
             <MainButon
-              text={'Create Task'}
-              // onPress={() => console.log('Button clickeed')}
-              onPress={addNewTask}
+              text={'Create Event'}
+              onPress={() => console.log('Button clickeed')}
+              // onPress={addNewTask}
               disabled={taskName === ''}
             />
           </View>

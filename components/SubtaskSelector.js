@@ -7,6 +7,7 @@ import {
   Checkbox,
   Icon,
   Assets,
+  TouchableOpacity,
 } from 'react-native-ui-lib';
 import { ScaledSheet, moderateScale, scale } from 'react-native-size-matters';
 import SubtaskSelectorStyles from '../styles/SubtaskSelector';
@@ -18,6 +19,7 @@ const SubtaskSelector = ({
   addSubtask,
   editList,
   inputAccessoryViewID = '',
+  removeList,
 }) => {
   const textChange = (e, idx) => {
     editList(e, idx);
@@ -53,11 +55,16 @@ const SubtaskSelector = ({
                 onChange={editList}
                 setFocus={idx === subtaskList.length - 1}
               />
+              <TouchableOpacity
+                style={SubtaskSelectorStyles.removeIcon}
+                onPress={() => removeList(idx)}
+              >
+                <Icon source={Assets.icons.x} size={20} tintColor="#BFD5FA" />
+              </TouchableOpacity>
             </View>
           </View>
         ))}
       </View>
-      {/* </KeyboardAvoidingView> */}
       <View>
         <Button
           backgroundColor="#5199FF"

@@ -91,9 +91,20 @@ const styles = ScaledSheet.create({
     padding: '10@msr',
     color: 'green',
     fontWeight: 'bold',
+    marginRight: '8@msr',
   },
   checkboxContainer: {
     marginRight: '8@msr',
+  },
+  removeIcon: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 

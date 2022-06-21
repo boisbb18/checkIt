@@ -5,7 +5,14 @@ import {
   Keyboard,
   // SafeAreaView,
 } from 'react-native';
-import { Modal, Text, Assets, View, Incubator } from 'react-native-ui-lib';
+import {
+  Modal,
+  Text,
+  Assets,
+  View,
+  Incubator,
+  TouchableOpacity,
+} from 'react-native-ui-lib';
 import NewTaskModalStyle from '../styles/NewTaskModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { moderateScale } from 'react-native-size-matters';
@@ -23,7 +30,12 @@ import MainButon from '../common/MainButton';
 const { TextField } = Incubator;
 
 const inputAccessoryViewID = '123abc';
-const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
+const NewTaskModal = ({
+  userId,
+  modalVisible,
+  closeModal,
+  onNewTaskAdded,
+} = {}) => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [taskName, setTaskName] = useState('');
   const [taskIcon, setTaskIcon] = useState('shopping-cart');
@@ -66,7 +78,7 @@ const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
     setTitleSelected(true);
   };
 
-  const createNewTask = ({
+  const createNewTask = async ({
     taskType,
     selectedDate,
     selectedDuration,
@@ -81,7 +93,7 @@ const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
     const isReminder = taskType === 2;
     const isAllDay = taskType === 1;
     const isOnce = selectedFrequency === 'once';
-
+    subtaskList = subtaskList.filter((subTask) => subTask.task !== '');
     const newTaskObj = {
       taskName,
       selectedDate,
@@ -92,10 +104,12 @@ const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
       subtaskList,
     };
 
+    let newEvent = {};
     if (isReminder) {
       saveNewReminder(userId, newTaskObj);
+      return;
     } else if (!isOnce) {
-      createReocurrence(
+      newEvent = await createReocurrence(
         frequencyDays,
         selectedFrequency,
         userId,
@@ -103,12 +117,19 @@ const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
         selectedDate
       );
     } else {
-      addSingleEvents(userId, {
+      newEvent = await addSingleEvents(userId, {
         ...newTaskObj,
         isAllDay,
         repeatedEventId: null,
       });
     }
+    console.log('Event is called ----> ', newEvent);
+
+    onNewTaskAdded({
+      ...newEvent,
+      isAllDay,
+      repeatedEventId: null,
+    });
   };
 
   return (
@@ -145,22 +166,27 @@ const NewTaskModal = ({ userId, modalVisible, closeModal } = {}) => {
               taskName={taskName}
               onTaskNameChange={setTaskName}
               titleSelected={titleSelected}
+              onCloseModal={closeModal}
               // inputAccessoryViewId={inputAccessoryViewID}
               isKeyboardVisible={isKeyboardVisible}
               onCreateNewTask={createNewTask}
             />
           </View>
-          {/* <InputAccessoryView nativeID={inputAccessoryViewID}>
-            <View
+          {/* <InputAccessoryView
+            nativeID={inputAccessoryViewID}
+            style={{ zIndex: 99 }}
+          >
+            <TouchableOpacity
               style={{
                 paddingHorizontal: 15,
+                zIndex: 110,
               }}
             >
               <MainButon
                 text={'Create Task'}
                 onPress={() => console.log('Button clickeed')}
               />
-            </View>
+            </TouchableOpacity>
           </InputAccessoryView> */}
         </View>
       </View>

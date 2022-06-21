@@ -1,7 +1,30 @@
-import { getDatabase, ref, set, push, update, child } from 'firebase/database';
+import {
+  getDatabase,
+  ref,
+  set,
+  push,
+  update,
+  child,
+  get,
+} from 'firebase/database';
 import { auth, db } from '../firebase';
 import { RRule, RRuleSet, rrulestr } from 'rrule';
 import dayjs from 'dayjs';
+
+export const getAllEvents = (userId) => {
+  console.log('USER ID -----> ', userId);
+  return get(ref(db, `${userId}/events`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        // console.log('SNapSHot Val ---> ', snapshot.val());
+        return snapshot.val();
+      } else {
+        console.log('No data available');
+        return {};
+      }
+    })
+    .catch((e) => console.log('Get All Events ---> ', e));
+};
 
 export const saveNewTask = (userId, newEvent) => {
   set(ref(db, `${userId}/tasks`), {
@@ -19,7 +42,7 @@ export const saveNewReminder = (userId, newEvent) => {
   return update(ref(db), updates);
 };
 
-export const createReocurrence = (
+export const createReocurrence = async (
   frequencyDays,
   type,
   userId,
@@ -48,14 +71,18 @@ export const createReocurrence = (
       dtstart: repeatedDate,
     });
   }
-  const repeatedEventId = addRecurringEvent(userId, {
+  const repeatedEventId = await addRecurringEvent(userId, {
     ...repeatedTask,
     startDate: repeatedDate,
     endDate: newEndDate,
   });
   const updates = {};
-  rule?.all()?.forEach((date) => {
+  let key;
+  await rule?.all()?.forEach((date, idx) => {
     const newPostKey = push(ref(db, `${userId}/events`)).key;
+    if (idx === 0) {
+      key = newPostKey;
+    }
     updates[`${userId}/events/${newPostKey}`] = {
       ...repeatedTask,
       repeatedEventId: repeatedEventId,
@@ -63,19 +90,25 @@ export const createReocurrence = (
     };
   });
 
-  update(ref(db), updates);
+  await update(ref(db), updates);
+  return {
+    ...repeatedTask,
+    key: key,
+    selectedDate: startRepeatedDate,
+  };
 };
 
-export const addSingleEvents = (userId, newEvent) => {
+export const addSingleEvents = async (userId, newEvent) => {
   const newPostKey = push(ref(db, `${userId}/events`)).key;
-  update(ref(db, `${userId}/events/${newPostKey}`), {
+  await update(ref(db, `${userId}/events/${newPostKey}`), {
     ...newEvent,
   });
+  return { ...newEvent, key: newPostKey };
 };
 
-export const addRecurringEvent = (userId, newEvent) => {
+export const addRecurringEvent = async (userId, newEvent) => {
   const newPostKey = push(ref(db, `${userId}/repeatedEvents`)).key;
-  update(ref(db, `${userId}/repeatedEvents/${newPostKey}`), {
+  await update(ref(db, `${userId}/repeatedEvents/${newPostKey}`), {
     ...newEvent,
   });
   return newPostKey;

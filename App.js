@@ -47,6 +47,14 @@ Assets.loadAssetsGroup('icons', {
   inbox: require('./assets/icons/inbox.png'),
   search: require('./assets/icons/searchIcon.png'),
   settings: require('./assets/icons/settingsIcon.png'),
+  x: require('./assets/icons/CrossIcon.png'),
+  chevronUp: require('./assets/icons/chevronUp.png'),
+  chevronDown: require('./assets/icons/chevronDown.png'),
+  // emptyList: require('./assets/EmptyList.png'),
+});
+
+Assets.loadAssetsGroup('svgs', {
+  emptyList: require('./assets/EmptyList.png'),
 });
 
 Typography.loadTypographies({
@@ -68,5 +76,8 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#fff',
     flexDirection: 'column',
+    margin: 0,
+    padding: 0,
+    backgroundColor: '#dae8ff',
   },
 });

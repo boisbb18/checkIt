@@ -30,7 +30,7 @@ const TopBarEx = ({}) => {
 
   const loadItems = (day) => {
     const items = allItems || {};
-    console.log('Load Itemsa Day selected -----> ', day);
+    // console.log('Load Itemsa Day selected -----> ', day);
     setTimeout(() => {
       for (let i = -15; i < 0; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
@@ -61,7 +61,7 @@ const TopBarEx = ({}) => {
       // });
       // console.log('NEW ITEMS ----> ', newItems);
       setAllItems(newItems);
-      console.log('NEW ITEMS ----> ', newItems);
+      // console.log('NEW ITEMS ----> ', newItems);
     }, 1000);
   };
 
@@ -73,12 +73,29 @@ const TopBarEx = ({}) => {
     >
       <Text>Hello World</Text>
       <Agenda
+        style={{
+          backgroundColor: 'red',
+        }}
         items={allItems}
         loadItemsForMonth={loadItems}
         selected="2022-04-09"
         renderItem={renderItem}
         renderEmptyData={renderEmptyDate}
         rowHasChanged={rowHasChanged}
+        calendarStyle={{
+          backgroundColor: 'green',
+        }}
+        theme={{
+          agendaDayTextColor: 'yellow',
+          agendaDayNumColor: 'green',
+          agendaTodayColor: 'red',
+          agendaKnobColor: 'blue',
+        }}
+        renderKnob={() => (
+          <View>
+            <Text>Drag me</Text>
+          </View>
+        )}
       />
     </View>
   );
@@ -86,6 +103,7 @@ const TopBarEx = ({}) => {
   const renderItem = (reservation, isFirst) => {
     const fontSize = isFirst ? 16 : 14;
     const color = isFirst ? 'black' : '#43515c';
+    console.log('Reservation ----> ', reservation);
 
     return (
       <TouchableOpacity
@@ -127,3 +145,24 @@ const styles = ScaledSheet.create({
 });
 
 export default TopBarEx;
+
+/*
+ "2022-12-29": Array [
+    Object {
+      "day": "2022-12-29",
+      "height": 98,
+      "name": "Item for 2022-12-29 #0",
+    },
+    Object {
+      "day": "2022-12-29",
+      "height": 104,
+      "name": "Item for 2022-12-29 #1",
+    },
+    Object {
+      "day": "2022-12-29",
+      "height": 83,
+      "name": "Item for 2022-12-29 #2",
+    },
+  ]
+
+*/

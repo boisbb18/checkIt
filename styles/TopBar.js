@@ -7,8 +7,9 @@ const styles = ScaledSheet.create({
     // top: 0,
     // left: 0,
     paddingTop: '17@msr',
-    paddingBottom: '17@msr',
+    paddingBottom: '12@msr',
     paddingHorizontal: '16@msr',
+    margin: 0,
   },
   titleContainer: {
     flexDirection: 'row',

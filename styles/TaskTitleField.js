@@ -38,7 +38,8 @@ const styles = ScaledSheet.create({
     flex: 1,
     height: '48@msr',
     fontSize: '20@msr',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'SFPro-Semibold',
     color: 'blue',
   },
 
@@ -47,7 +48,8 @@ const styles = ScaledSheet.create({
     padding: '10@msr',
     height: '48@msr',
     color: 'green',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'SFPro-Semibold',
   },
 });
 
