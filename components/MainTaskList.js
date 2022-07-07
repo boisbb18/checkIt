@@ -7,6 +7,7 @@ import {
   Icon,
   Image,
   ExpandableSection,
+  TouchableOpacity,
 } from 'react-native-ui-lib';
 import { ScaledSheet, moderateScale } from 'react-native-size-matters';
 import MaintTaskListStyles from '../styles/MainTaskList';
@@ -14,7 +15,13 @@ import TaskForTodayTitle from './TaskForTodayTitle';
 import TaskItem from '../common/TaskItem';
 import dayjs from 'dayjs';
 
-const MainTaskList = ({ events = {}, showAllDayTasks, onShowAllDayTasks }) => {
+const MainTaskList = ({
+  events = {},
+  showAllDayTasks,
+  onShowAllDayTasks,
+  onTaskCheckboxClicked,
+  onOpenEditModal,
+}) => {
   const emptyList = () => (
     <View>
       <View style={MaintTaskListStyles.emptyListImage}>
@@ -85,10 +92,15 @@ const MainTaskList = ({ events = {}, showAllDayTasks, onShowAllDayTasks }) => {
       <View style={MaintTaskListStyles.scheduledTaskTitleContainer}>
         <Text style={MaintTaskListStyles.expandableTitle}>Scheduled Tasks</Text>
       </View>
-      {events.plannedEvents.map((event) => (
+      {events.plannedEvents.map((event, idx) => (
         <View style={MaintTaskListStyles.plannedTaskContainer} key={event.key}>
           {getTime(event)}
-          <TaskItem event={event} key={event.key} />
+          <TaskItem
+            event={event}
+            key={event.key}
+            onTaskClicked={taskClicked}
+            onCheckboxClicked={checkboxClicked}
+          />
         </View>
       ))}
     </View>
@@ -97,7 +109,16 @@ const MainTaskList = ({ events = {}, showAllDayTasks, onShowAllDayTasks }) => {
     !events?.alldayEvents?.length && !events?.plannedEvents?.length
       ? 0
       : events?.alldayEvents?.length + events?.plannedEvents?.length;
-  console.log('Total Tasks ----> ', totalTasks);
+
+  const taskClicked = (task = {}) => {
+    console.log('Task clicked');
+    onOpenEditModal(task);
+  };
+
+  const checkboxClicked = (task, isCompleted) => {
+    onTaskCheckboxClicked(task, isCompleted);
+  };
+
   return (
     <View style={MaintTaskListStyles.mainView}>
       <ScrollView

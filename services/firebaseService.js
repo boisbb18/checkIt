@@ -113,3 +113,11 @@ export const addRecurringEvent = async (userId, newEvent) => {
   });
   return newPostKey;
 };
+
+export const updateTaskEvent = async (userId, event) => {
+  const key = event.key;
+  delete event.key;
+  await update(ref(db, `${userId}/events/${key}`), {
+    ...event,
+  });
+};

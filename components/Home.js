@@ -7,13 +7,14 @@ import AddIconButton from '../common/AddIconButton';
 import { moderateScale } from 'react-native-size-matters';
 import { auth, db } from '../firebase';
 import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getAllEvents } from '../services/firebaseService';
+import { getAllEvents, updateTaskEvent } from '../services/firebaseService';
 import NewTaskModal from './NewTaskModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDatabase, ref, set } from 'firebase/database';
 import TopBar from './TopBar';
 import HeaderContainer from './HeaderContainer';
 import MainTaskList from './MainTaskList';
+import EditTaskModal from './EditTaskModal';
 import dayjs from 'dayjs';
 
 const Home = () => {
@@ -25,6 +26,9 @@ const Home = () => {
   const [calendarSelectedDate, setCalendarSelectedDate] = useState(new Date());
   const [allEventKeys, setAllEventKeys] = useState({});
   const [showAllDayTasks, setShowAllDayTasks] = useState(true);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editModalContent, setEditModalContent] = useState({});
+  const [markedDates, setMarkedDates] = useState({});
 
   useEffect(async () => {
     setSelectedDay(dayjs(calendarSelectedDate).format('MM/DD/YYYY'));
@@ -51,12 +55,22 @@ const Home = () => {
     const eventsTasks = { ...allTasks };
     // const eventsTasks = {};
     const eventKeys = { ...allEventKeys };
+    const copyMarkedDates = {};
     Object.entries(events).forEach(([key, data]) => {
       const dataDate = dayjs(data.selectedDate).format('MM/DD/YYYY');
       if (allEventKeys[key]) return;
       if (!eventsTasks[dataDate]) {
         eventsTasks[dataDate] = { alldayEvents: [], plannedEvents: [] };
       }
+      if (!copyMarkedDates[dataDate]) {
+        copyMarkedDates[dataDate] = {
+          date: dataDate,
+          dots: [],
+        };
+      }
+      // if (copyMarkedDates[dataDate].dots.length < 3) {
+      copyMarkedDates[dataDate].dots.push(data.paletteColor);
+      // }
       eventKeys[key] = true;
       data = { ...data, key };
       if (data.isAllDay) {
@@ -65,14 +79,16 @@ const Home = () => {
         eventsTasks[dataDate].plannedEvents.push(data);
 
         eventsTasks[dataDate].plannedEvents.sort((a, b) => {
-          const dateA = new Date(a);
-          const dateB = new Date(b);
-
-          return dateA > dateB ? 1 : dateA === dateB ? 0 : -1;
+          const dateA = new Date(a.selectedDate);
+          const dateB = new Date(b.selectedDate);
+          return dateA - dateB;
         });
       }
     });
-
+    if (Object.values(copyMarkedDates).length) {
+      setMarkedDates(copyMarkedDates);
+    }
+    // console.log('Object Values -----> ', Object.values(copyMarkedDates));
     setAllTasks(eventsTasks);
     setAllEventKeys(eventKeys);
   };
@@ -108,11 +124,9 @@ const Home = () => {
       }
 
       allEvents.plannedEvents.sort((a, b) => {
-        const dateA = new Date(a);
-        const dateB = new Date(b);
-
-        // return dateA > dateB;
-        return dateA > dateB ? 1 : dateA === dateB ? 0 : -1;
+        const dateA = new Date(a.selectedDate);
+        const dateB = new Date(b.selectedDate);
+        return dateA - dateB;
       });
     }
 
@@ -148,6 +162,21 @@ const Home = () => {
 
   const onShowAllDayTasks = () => {
     setShowAllDayTasks(!showAllDayTasks);
+  };
+
+  const onTaskCheckboxClicked = (event, isCompleted) => {
+    const updatedEvent = { ...event, isCompleted };
+    updateTaskEvent(userId, { ...updatedEvent });
+    addNewTaskToList(updatedEvent);
+  };
+
+  const onCloseEditModal = () => {
+    setEditModalVisible(false);
+  };
+
+  const onOpenEditModal = (task) => {
+    console.log('Task ------> ', task);
+    setEditModalVisible(true);
   };
 
   const mainNavigationBar = () => (
@@ -186,6 +215,10 @@ const Home = () => {
         userId={userId}
         onNewTaskAdded={addNewTaskToList}
       />
+      <EditTaskModal
+        editModalVisible={editModalVisible}
+        onCloseEditModal={onCloseEditModal}
+      />
       <TopBar currentDateMonth={currentDate} />
       <View
         style={{
@@ -196,11 +229,14 @@ const Home = () => {
           onMonthUpdate={updateMonth}
           onDateChange={onCalendarDateChange}
           selectedDate={calendarSelectedDate}
+          markedDates={markedDates}
         />
         <MainTaskList
           events={allTasks[selectedDay]}
           showAllDayTasks={showAllDayTasks}
           onShowAllDayTasks={onShowAllDayTasks}
+          onTaskCheckboxClicked={onTaskCheckboxClicked}
+          onOpenEditModal={onOpenEditModal}
         />
       </View>
       <View style={HomeStyles.navigationContainer}>{mainNavigationBar()}</View>

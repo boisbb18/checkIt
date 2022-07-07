@@ -15,6 +15,7 @@ const HeaderContainer = ({
   onMonthUpdate,
   selectedDate = new Date(),
   onDateChange,
+  markedDates = {},
 }) => {
   const getWeekDay = (date) => {
     return dayjs(date).format('ddd');
@@ -49,6 +50,11 @@ const HeaderContainer = ({
     // onMonthUpdate(end);
   };
 
+  const getMarkedDates = (date) => {
+    const selectedDate = dayjs(date).format('MM/DD/YYYY');
+    return markedDates[selectedDate] ? markedDates[selectedDate].dots : [];
+  };
+
   const onWeekScrollStart = (start, end) => {
     onMonthUpdate(end);
   };
@@ -72,8 +78,9 @@ const HeaderContainer = ({
         onWeekScrollStart={onWeekScrollStart}
         dateNumberStyle={HeaderContainerStyles.dateNum}
         dateNameStyle={HeaderContainerStyles.dateName}
+        // markedDates={markedDates}
         dayComponentHeight={70}
-        dayComponent={({ date }) => {
+        dayComponent={({ date, markedDates }, idx) => {
           return (
             <TouchableOpacity
               style={HeaderContainerStyles.dayRow}
@@ -106,6 +113,19 @@ const HeaderContainer = ({
                 >
                   {getDay(date)}
                 </Text>
+                {!isDateSelected(selectedDate, date) ? (
+                  <View style={HeaderContainerStyles.dotsContainer}>
+                    {getMarkedDates(date).map((color, idx) => (
+                      <View
+                        key={`${date}_${color}_${idx}`}
+                        style={[
+                          HeaderContainerStyles.markedDate,
+                          { backgroundColor: color },
+                        ]}
+                      />
+                    ))}
+                  </View>
+                ) : null}
               </View>
             </TouchableOpacity>
           );

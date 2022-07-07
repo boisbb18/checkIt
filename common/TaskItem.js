@@ -6,31 +6,76 @@ import {
   Icon,
   Assets,
   Checkbox,
+  TouchableOpacity,
 } from 'react-native-ui-lib';
 import { ScaledSheet, moderateScale } from 'react-native-size-matters';
 
-const TaskItem = ({ event = {}, showMenuButton = false }) => {
+const TaskItem = ({
+  event = {},
+  showMenuButton = false,
+  onTaskClicked = null,
+  onCheckboxClicked = () => {},
+}) => {
   const completedTasks =
     event?.subtaskList?.filter((task) => task.isCompleted) || [];
 
   const label = `${completedTasks.length}/${event?.subtaskList?.length || 0}`;
+  const checkboxValueChange = (isCompleted) => {
+    onCheckboxClicked(event, isCompleted);
+  };
+
+  const handleTaskClick = () => {
+    // if (onTaskClicked) {
+    onTaskClicked(event);
+    // }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainer}>
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            value={false}
-            size={20}
-            borderRadius={10}
-            containerStyle={styles.checkbox}
-          />
+        <View
+          style={
+            event.isCompleted
+              ? styles.checkboxContainerChecked
+              : styles.checkboxContainer
+          }
+        >
+          <View style={event.isCompleted ? styles.checkboxWrapper : {}}>
+            <Checkbox
+              value={event.isCompleted}
+              size={event.isCompleted ? 14 : 20}
+              borderRadius={event.isCompleted ? 7 : 10}
+              containerStyle={styles.checkbox}
+              onValueChange={(e) => checkboxValueChange(e)}
+              color={'#2b396c'}
+              selectedIcon={Assets.icons.checkIcon}
+              style={{ opacity: 0.6 }}
+              iconColor={'#fff'}
+            />
+          </View>
         </View>
-        <View style={styles.contentDescription}>
+        <TouchableOpacity
+          style={styles.contentDescription}
+          onPress={handleTaskClick}
+        >
           {event.taskName !== '' ? (
-            <Text style={styles.taskName}>{event.taskName}</Text>
+            <Text
+              style={
+                event.isCompleted ? styles.taskNameChecked : styles.taskName
+              }
+            >
+              {event.taskName}
+            </Text>
           ) : null}
           {event.description !== '' ? (
-            <Text style={styles.description} numberOfLines={1}>
+            <Text
+              style={
+                event.isCompleted
+                  ? styles.descriptionChecked
+                  : styles.description
+              }
+              numberOfLines={1}
+            >
               {event.description}
             </Text>
           ) : null}
@@ -46,7 +91,7 @@ const TaskItem = ({ event = {}, showMenuButton = false }) => {
               />
             </View>
           ) : null}
-        </View>
+        </TouchableOpacity>
       </View>
       {showMenuButton ? (
         <View></View>
@@ -89,8 +134,16 @@ const styles = ScaledSheet.create({
   checkbox: {
     borderColor: '#2B396C',
     borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
   },
+  completedCheckbox: {},
   checkboxContainer: {
+    paddingRight: '12@msr',
+    marginTop: '5@msr',
+  },
+  checkboxContainerChecked: {
     paddingRight: '12@msr',
     marginTop: '5@msr',
   },
@@ -101,11 +154,30 @@ const styles = ScaledSheet.create({
     lineHeight: 25,
     letterSpacing: 0.38,
   },
+  taskNameChecked: {
+    fontFamily: 'SFPro-Semibold',
+    color: '#2B396C',
+    opacity: 0.6,
+    fontSize: 20,
+    lineHeight: 25,
+    letterSpacing: 0.38,
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
   description: {
     fontSize: 16,
     letterSpacing: -0.32,
     fontFamily: 'SFPro',
     color: '#2B396C',
+  },
+  descriptionChecked: {
+    fontSize: 16,
+    opacity: 0.6,
+    letterSpacing: -0.32,
+    fontFamily: 'SFPro',
+    color: '#2B396C',
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
   },
   contentDescription: {
     flexDirection: 'column',
@@ -127,6 +199,23 @@ const styles = ScaledSheet.create({
   },
   subtaskContainer: {
     marginTop: '9@msr',
+  },
+
+  checkboxWrapper: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#2B396C',
+    opacity: 0.6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  checkboxChecked: {
+    // backgroundColor: '#2b396c',
+    width: 14,
+    height: 14,
   },
 });
 

@@ -50,6 +50,7 @@ Assets.loadAssetsGroup('icons', {
   x: require('./assets/icons/CrossIcon.png'),
   chevronUp: require('./assets/icons/chevronUp.png'),
   chevronDown: require('./assets/icons/chevronDown.png'),
+  checkIcon: require('./assets/icons/Vector.png'),
   // emptyList: require('./assets/EmptyList.png'),
 });
 

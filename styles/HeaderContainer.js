@@ -105,26 +105,16 @@ const styles = ScaledSheet.create({
     // borderRadius: 16,
   },
 
-  highlightCirlce: {
-    // backgroundColor: '#fff',
-    // paddingHorizontal: 4,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // textAlign: 'center',
-    // height: 32,
-    // width: 32,
-    // borderRadius: 16,
-    // marginBottom: 10,
-    // marginBottom: 20,
-    // paddingBottom: 20,
-    // fontSize: 20,
-    // lineHeight: 25,
-    // fontFamily: 'SFPro',
-    // letterSpacing: 0.38,
-    // fontWeight: '500',
-    // // color: '#2B396C',
-    // textAlign: 'center',
-    // zIndex: 100,
+  highlightCirlce: {},
+  dotsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  markedDate: {
+    width: 6,
+    height: 6,
+    marginTop: 1,
+    borderRadius: 5,
   },
 });
 
